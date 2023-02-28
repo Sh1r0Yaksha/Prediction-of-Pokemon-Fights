@@ -1,49 +1,9 @@
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder 
+import sklearn as skl
 
-# Read data of all pokemon from file (change it according to file location)
-pokemon = pd.read_csv('Data/pokemon_data.csv')
-
-
-# Making 2 lists of features 'Type 1' and 'Type 2' for doing one hot encoding
-type_1_list = pokemon['Type 1']
-type_2_list = pokemon['Type 2']
-
-# One hot encoding 'Type 1' and 'Type 2'
-type_1_list = pd.get_dummies(
-    type_1_list,
-    prefix=None,
-    prefix_sep='_', 
-    dummy_na=True, 
-    columns=['Type 1'], 
-    sparse=False, 
-    drop_first=False, 
-    dtype=None
-)
-
-type_2_list = pd.get_dummies(
-    type_2_list,
-    prefix=None,
-    prefix_sep='_', 
-    dummy_na=True, 
-    columns=['Type 2'], 
-    sparse=False, 
-    drop_first=False, 
-    dtype=None
-)
-
-
-# Adding the lists above to get a new list with all Pokemon's types
-both_type = type_1_list + type_2_list
-
-# Adding the one hot encoded features and removing excess and unwanted features
-new_pokemon = pokemon.join(both_type)
-new_pokemon.pop('Type 1')
-new_pokemon.pop('Type 2')
-new_pokemon.pop('Generation')
-new_pokemon.pop('Legendary')
+# Reading the preprocessed data
+pokemon = pd.read_csv('Data/PreProcessed.csv')
 
 # Function for getting all of the features of a pokemon given their 'id'
-def get_features(index_1,index_2,one_hot_pokemon):
-    return (one_hot_pokemon.iloc[index_1-1,2:-1:1],one_hot_pokemon.iloc[index_2-1,2:-1:1])
-
+def get_features(index_1,index_2,pokemon):
+    return (pokemon.iloc[index_1-1,1:-1:1],pokemon.iloc[index_2-1,1:-1:1])
