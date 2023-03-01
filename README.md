@@ -26,7 +26,7 @@ This file contains the notebook used for preprocessing and feature selection of 
  ### `training.ipynb`
  This file contains the various models used for training data. **STILL IN DEVELOPMENT**
 
- ## `src\`
+ ## `src/`
  This folder contains the source code for the machine learning model. The source code is written in Python and includes modules for data preprocessing, feature engineering and model selection.
 
  ### `main.py`
