@@ -38,13 +38,13 @@ This folder contains all of the graphs and plots constructed during the course o
  ## `src/`
  This folder contains the source code for the machine learning model. The source code is written in Python and includes modules for data preprocessing, feature engineering and model selection.
 
- ### ``src/main.py`
+ ### `src/main.py`
  This is the main file, running it will run the training model and return the results in a csv file. **STILL IN DEVELOPMENT**
 
-### ``src/preprocessing_and_feature_sel.py`
+### `src/preprocessing_and_feature_sel.py`
 This file contains the source code used for preprocessing the data which includes *one hot encoding* the features 'Type 1' and 'Type 2', removing the unncessary features - Pokemon Name, Type 1 and Type 2 after one hot encoding, generation and legendary, and returns it in the form of a csv file '`data\preprocessed.csv`'.
 
-### ``src/training.py`
+### `src/training.py`
 This file contains the source code used for training the data using various models. **STILL IN DEVELOPMENT**
 
 ##  `requirements.txt`
