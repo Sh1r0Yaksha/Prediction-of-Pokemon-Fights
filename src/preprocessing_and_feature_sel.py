@@ -1,9 +1,13 @@
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder 
+import os
+
+parent_dir = os.path.dirname(os.getcwd())
+
+
 
 # Read data of all pokemon from file (change it according to file location)
-pokemon = pd.read_csv('Data/pokemon_data.csv')
-
+pokemon = pd.read_csv(parent_dir + '/data/pokemon_data.csv')
 
 # Making 2 lists of features 'Type 1' and 'Type 2' for doing one hot encoding
 type_1_list = pokemon['Type 1']
@@ -45,4 +49,4 @@ new_pokemon.pop('Legendary')
 new_pokemon.pop('Name')
 
 # Converting this dataset to csv format
-new_pokemon.to_csv('Data/PreProcessed.csv')
+new_pokemon.to_csv(parent_dir + '/data/preprocessed.csv')
