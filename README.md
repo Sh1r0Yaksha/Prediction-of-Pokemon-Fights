@@ -45,9 +45,9 @@ This file contains the list of Python packages required to run the model.
 This file provides an overview of the contents of this repository.'
 
 # Getting Started
-To get started, clone this repository to your local machine and navigate to the root directory. Ensure that you have installed all the necessary packages listed in the '`requirements.txt`' file.
+To get started, clone this repository to your local machine and navigate to the root directory. Ensure that you have installed all the necessary packages listed in the `requirements.txt` file.
 
 **Note:**  *The model is developed on a linux-based environment so running it on a Windows environment may result in errors, ensure that the path to the csv files are changed according to Windows path conventions.*
 
 # Usage
-Once you have installed the necessary packages, you can run the model by executing the main.py script in the src/ folder. This will train the model and save the trained model as a file that can be used for predictions.
+Once you have installed the necessary packages, you can run the model by executing the `main.py` script in the `src/` folder. This will train the model and save the trained model as a file that can be used for predictions.
