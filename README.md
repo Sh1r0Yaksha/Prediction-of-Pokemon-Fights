@@ -3,7 +3,7 @@ This repository contains the source code and files for a machine learning model 
 
 # Files
 ## '`data/`'
-This folder contains the raw as well as preprocessed data used to train and test the model. The data is stored in CSV format and includes features and labels used in the model.
+This folder contains the raw as well as preprocessed data used to train and test the model. The data is stored in CSV format and includes features and labels used in the model and is provided by the course instructor.
 
 ### '`combats.csv`'
 This file contains the training data for the model.
