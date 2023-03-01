@@ -2,48 +2,46 @@
 This repository contains the source code and files for a machine learning model designed to predict Pokemon fight winner. This README file is intended to provide a brief overview of the repository's contents and the structure of the files included.
 
 # Files
-## '`data/`'
+## `data/`
 This folder contains the raw as well as preprocessed data used to train and test the model. The data is stored in CSV format and includes features and labels used in the model and is provided by the course instructor.
 
-### '`combats.csv`'
+### `combats.csv`
 This file contains the training data for the model.
 
-### '`pokemon_data.csv`'
+### `pokemon_data.csv`
 This file contains the data for each pokemon, including its id, name, stats, generation and whether it is legendary or not.
 
-### '`preprocessed.csv`'
+### `preprocessed.csv`
 This file contains a preprocessed and feature engineered data from pokemon_data.csv.
 
-### '`test.csv`'
+### `test.csv`
 This file contains test data on which the model will run and predict the winner.
 
-## '`notebooks/`'
+## `notebooks/`
 This folder contains Jupyter notebooks that were used for data exploration, data preprocessing, feature engineering, model selection, and model evaluation.
 
-### '`preprocessing_and_feature_sel.ipynb`'
+### `preprocessing_and_feature_sel.ipynb`
 This file contains the notebook used for preprocessing and feature selection of the data.
 
- the data which includes *one hot encoding* the features 'Type 1' and 'Type 2', removing the unncessary features - Pokemon Name, Type 1 and Type 2 after one hot encoding, generation and legendary.
-
- ### '`training.ipynb`'
+ ### `training.ipynb`
  This file contains the various models used for training data. **STILL IN DEVELOPMENT**
 
- ## '`src\`'
+ ## `src\`
  This folder contains the source code for the machine learning model. The source code is written in Python and includes modules for data preprocessing, feature engineering and model selection.
 
- ### '`main.py`'
+ ### `main.py`
  This is the main file, running it will run the training model and return the results in a csv file. **STILL IN DEVELOPMENT**
 
-### '`preprocessing_and_feature_sel.py`'
+### `preprocessing_and_feature_sel.py`
 This file contains the source code used for preprocessing the data which includes *one hot encoding* the features 'Type 1' and 'Type 2', removing the unncessary features - Pokemon Name, Type 1 and Type 2 after one hot encoding, generation and legendary, and returns it in the form of a csv file '`data\preprocessed.csv`'.
 
-### '`training.py`'
+### `training.py`
 This file contains the source code used for training the data using various models. **STILL IN DEVELOPMENT**
 
-##  '`requirements.txt`'
+##  `requirements.txt`
 This file contains the list of Python packages required to run the model.
 
-## '`README.md`'
+## `README.md`
 This file provides an overview of the contents of this repository.'
 
 # Getting Started
