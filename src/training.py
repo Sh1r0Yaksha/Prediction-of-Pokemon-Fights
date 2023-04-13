@@ -72,8 +72,8 @@ for i in range(len(list_second)):
 df_second_pokemon = pd.concat(temp_, ignore_index=True)
 
 # Removing Pokemon ID feature which is unnecessary for training
-df_first_pokemon = df_first_pokemon.drop(df_first_pokemon.columns[0], axis=1)
-df_second_pokemon = df_second_pokemon.drop(df_second_pokemon.columns[0], axis=1)
+df_first_pokemon = df_first_pokemon.drop([df_first_pokemon.columns[0],df_first_pokemon.columns[1]], axis=1)
+df_second_pokemon = df_second_pokemon.drop([df_second_pokemon.columns[0], df_second_pokemon.columns[1]], axis=1)
 
 # Joining the first and second pokemon dataframe to create the final training dataframe
 training_df = pd.concat([df_first_pokemon, df_second_pokemon], axis=1)
@@ -268,8 +268,8 @@ for i in range(len(list_second)):
 
 df_second_pokemon_test = pd.concat(temp_, ignore_index=True)
 
-df_first_pokemon_test = df_first_pokemon_test.drop(df_first_pokemon_test.columns[0], axis=1)
-df_second_pokemon_test = df_second_pokemon_test.drop(df_second_pokemon_test.columns[0], axis=1)
+df_first_pokemon_test = df_first_pokemon_test.drop([df_first_pokemon_test.columns[0], df_first_pokemon_test.columns[1]], axis=1)
+df_second_pokemon_test = df_second_pokemon_test.drop([df_second_pokemon_test.columns[0],df_second_pokemon_test.columns[1]], axis=1)
 
 # Creating final test dataframe to put into the classifier
 test_df = pd.concat([df_first_pokemon_test, df_second_pokemon_test], axis=1)
