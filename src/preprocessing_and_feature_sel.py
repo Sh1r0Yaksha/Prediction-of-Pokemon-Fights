@@ -5,9 +5,12 @@ import os
 parent_dir = os.path.dirname(os.getcwd())
 
 
-
 # Read data of all pokemon from file (change it according to file location)
 pokemon = pd.read_csv(parent_dir + '/data/pokemon_data.csv')
+
+# Name of Pokemon Primeape was missing
+name = 'Primeape'
+pokemon.loc[62, 'Name'] = name
 
 # Making 2 lists of features 'Type 1' and 'Type 2' for doing one hot encoding
 type_1_list = pokemon['Type 1']
