@@ -27,7 +27,7 @@ This file contains the notebook used for plotting the various graphs which are u
 This file contains the notebook used for preprocessing and feature selection of the data.
 
  ### `notebooks/training.ipynb`
- This file contains the various models used for training data. **STILL IN DEVELOPMENT**
+ This file contains the various models used for training data. 
 
 ## `pictures/`
 This folder contains the various pictures used in the project
@@ -39,13 +39,19 @@ This folder contains all of the graphs and plots constructed during the course o
  This folder contains the source code for the machine learning model. The source code is written in Python and includes modules for data preprocessing, feature engineering and model selection.
 
  ### `src/main.py`
- This is the main file, running it will run the training model and return the results in a csv file. **STILL IN DEVELOPMENT**
+ This is the main file, running it will run the training model and return the results in a csv file '`data\result.csv`'. 
 
 ### `src/preprocessing_and_feature_sel.py`
 This file contains the source code used for preprocessing the data which includes *one hot encoding* the features 'Type 1' and 'Type 2', removing the unncessary features - Pokemon Name, Type 1 and Type 2 after one hot encoding, generation and legendary, and returns it in the form of a csv file '`data\preprocessed.csv`'.
 
 ### `src/training.py`
-This file contains the source code used for training the data using various models. **STILL IN DEVELOPMENT**
+This file contains the source code used for training the data using various models. The models used are -
+* Decision Tree Classifier
+* Logistic Regression
+* Random Forest Classifier
+* k-Nearest Neighbours algorithm
+  
+  Out of these, Random Forest classifier is used for testing data after some parameter tuning due to having the maximum accuracy and f-1 score among these.
 
 ##  `requirements.txt`
 This file contains the list of Python packages required to run the model.
@@ -59,4 +65,8 @@ To get started, clone this repository to your local machine and navigate to the 
 **Note:**  *The model is developed on a linux-based environment so running it on a Windows environment may result in errors, ensure that the path to the csv files are changed according to Windows path conventions.*
 
 # Usage
-Once you have installed the necessary packages, you can run the model by executing the `main.py` script in the `src/` folder. This will train the model and save the trained model as a file that can be used for predictions.
+Once you have installed the necessary packages, you can run the model by executing the `main.py` script in the `src` folder. 
+
+This will import the files '`data/combats.csv`' and '`data/pokemon_data.csv`', create a file '`data/preprocessed.csv`' which contains the dataset after preprocessing and finally train the model, provide results on the console and predict the data provided in '`data/test.csv`' in a file '`data/result.csv`'.
+
+For prediction of your own dataset, create a csv in the format of the file '`data/test.csv`' and replace it with the same file.
