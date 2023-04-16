@@ -1,5 +1,4 @@
 import pandas as pd
-import sklearn as skl
 from IPython.display import display
 
 from sklearn.model_selection import train_test_split
@@ -10,7 +9,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.model_selection import GridSearchCV
+from sklearn.naive_bayes import GaussianNB
 
 import os
 parent_dir = os.path.dirname(os.getcwd())
@@ -161,7 +162,7 @@ confusion_matrix[name] = metrics.confusion_matrix(y_test, predicted[name])
 ___________________Model_4 - k-Nearest Neighbours algorithm__________________________
 """
 
-knn = KNeighborsClassifier() # Number of neighbours chosen was 4
+knn = KNeighborsClassifier()
 knn.fit(x_train, y_train)
 
 name = 'knn'
@@ -199,52 +200,124 @@ display(effective.iloc[0:10:1,:])
 
 # Prameters grid for Random Forest Classifier Grid search
 rf_grid = { 
-    'n_estimators': [100, 200, 300, 400, 500, 600],
-    'criterion': ['gini', 'entropy'],
+    'n_estimators': [300, 400, 500], # No. of trees
+    'criterion': ['gini', 'entropy', 'log_loss'],
+    'max_features': ['sqrt', 'log2', 5, 10],
+    'min_samples_split': [2,3,4],
+    'n_jobs': [-1],
+    'class_weight': ['balanced', 'balanced_subsample'],
     'random_state': [seed]
 }
 
 # Prameters grid for Decision Tree Classifier Grid search
 dt_grid = {
-    'criterion': ['gini', 'entropy'],
-    'max_depth': [100, 200, 300, 400, 500],
+    'criterion': ['gini', 'entropy', 'log_loss'],
     'splitter': ['best', 'random'],
+    'max_depth': [300, 400, 500],
+    'min_samples_split': [2,3,4],
+    'max_features': ['sqrt', 'log2', 5, 10],
     'random_state': [seed]
 }
+
+logreg_grid = {
+    'penalty': ['l1', 'l2', 'elasticnet', None],
+    'tol': [1e-3,1e-4,1e-5],
+    'C': [0.5,1, 1.5],
+    'fit_intercept': [True, False],
+    'random_state': [seed],
+    'solver': ['lbfgs', 'liblinear', 'newton-cg', 'newton-cholesky', 'sag', 'saga']
+}
+
+knn_grid = {
+    'n_neighbors': [3, 5, 10],
+    'weights': ['uniform', 'distance'],
+    'algorithm': ['ball_tree', 'kd_tree', 'brute'],
+    'n_jobs': [-1],
+    'random_state': [seed]
+}
+
+gaussianNB_grid = {
+    'var_smoothing': [1e-9, 1e-8,1e-7,1e-6],
+    'random_state': [seed]
+}
+
+cv_prediction = {}
+cv_accuracy = {}
+cv_fscore = {}
+cv_confusion_matrix = {}
+cv_classification_report = {}
 
 # Grid search on Random Forest Classifier
 rf_cv = GridSearchCV(estimator=RandomForestClassifier(), param_grid=rf_grid, cv=5, scoring='accuracy') #5-fold k-validation based on accuracy score
 rf_cv.fit(x_train, y_train)
 
-rf_cv_prediction = rf_cv.predict(x_test)
+name = 'Random Forest'
+
+cv_prediction[name] = rf_cv.predict(x_test)
+cv_accuracy[name] = round(metrics.accuracy_score(y_test,cv_prediction[name]) * 100, 2)
+cv_fscore[name] = round(metrics.f1_score(y_test, cv_prediction[name], average='macro') * 100, 2)
+cv_confusion_matrix[name] = pd.DataFrame(metrics.confusion_matrix(y_test, cv_prediction[name]), index=['Loser', 'Winner'], columns=['Loser', 'Winner'])
+cv_classification_report[name] = metrics.classification_report(y_test, cv_prediction[name])
 
 # Grid search on Decision Tree Classifier
 dt_cv = GridSearchCV(estimator=tree.DecisionTreeClassifier(), param_grid=dt_grid, cv=5, scoring='accuracy')
 dt_cv.fit(x_train, y_train)
 
-dt_cv_prediction = dt_cv.predict(x_test)
+name = 'Decision Tree'
 
-print('\n\nRandom Forest')
+cv_prediction[name] = dt_cv.predict(x_test)
+cv_accuracy[name] = round(metrics.accuracy_score(y_test,cv_prediction[name]) * 100, 2)
+cv_fscore[name] = round(metrics.f1_score(y_test, cv_prediction[name], average='macro') * 100, 2)
+cv_confusion_matrix[name] = pd.DataFrame(metrics.confusion_matrix(y_test, cv_prediction[name]), index=['Loser', 'Winner'], columns=['Loser', 'Winner'])
+cv_classification_report[name] = metrics.classification_report(y_test, cv_prediction[name])
 
-display(pd.DataFrame(metrics.confusion_matrix(y_test, rf_cv_prediction), index=['Loser', 'Winner'], columns=['Loser', 'Winner']))
-print(metrics.classification_report(y_test, rf_cv_prediction))
+# Grid search on Logistic Regression
+logreg_cv = GridSearchCV(estimator=LogisticRegression(), param_grid=logreg_grid, cv = 10, scoring='f1_macro')
+logreg_cv.fit(x_train,y_train)
 
-rf_cv_accuracy = round(metrics.accuracy_score(y_test,rf_cv_prediction) * 100, 2) 
-rf_cv_fscore = round(metrics.f1_score(y_test, rf_cv_prediction, average='macro') * 100, 2)
+name = 'Logistic Regression'
 
-print('\n\nDecision Tree')
+cv_prediction[name] = logreg_cv.predict(x_test)
+cv_accuracy[name] = round(metrics.accuracy_score(y_test,cv_prediction[name]) * 100, 2)
+cv_fscore[name] = round(metrics.f1_score(y_test, cv_prediction[name], average='macro') * 100, 2)
+cv_confusion_matrix[name] = pd.DataFrame(metrics.confusion_matrix(y_test, cv_prediction[name]), index=['Loser', 'Winner'], columns=['Loser', 'Winner'])
+cv_classification_report[name] = metrics.classification_report(y_test, cv_prediction[name])
 
-display(pd.DataFrame(metrics.confusion_matrix(y_test, dt_cv_prediction), index=['Loser', 'Winner'], columns=['Loser', 'Winner']))
-print(metrics.classification_report(y_test, dt_cv_prediction))
+# Grid search on KNN
+knn_cv = GridSearchCV(estimator=KNeighborsClassifier(), param_grid=knn_grid, cv=10, scoring='f1_macro')
+knn_cv.fit(x_train, y_train)
 
-dt_cv_accuracy = round(metrics.accuracy_score(y_test, dt_cv_prediction) * 100, 2) 
-dt_cv_fscore = round(metrics.f1_score(y_test, dt_cv_prediction, average='macro') * 100, 2)
+name = 'KNN'
 
-print('\n\nAccuracy:')
-print('Random Forest Classifier: ' + str(rf_cv_accuracy))
-print('Decision Tree Classifier: ' + str(dt_cv_accuracy))
+cv_prediction[name] = knn_cv.predict(x_test)
+cv_accuracy[name] = round(metrics.accuracy_score(y_test,cv_prediction[name]) * 100, 2)
+cv_fscore[name] = round(metrics.f1_score(y_test, cv_prediction[name], average='macro') * 100, 2)
+cv_confusion_matrix[name] = pd.DataFrame(metrics.confusion_matrix(y_test, cv_prediction[name]), index=['Loser', 'Winner'], columns=['Loser', 'Winner'])
+cv_classification_report[name] = metrics.classification_report(y_test, cv_prediction[name])
 
-print('\n\nRandom Forest Classifier has the best accuracy so it will be chosen for predicting the test data\n\n')
+
+for item in cv_accuracy:
+    print(item + ' accuracy')
+    print(cv_accuracy[item])
+    print('')
+    print(item + ' F-1 score')
+    print(cv_fscore[item])
+    print('')
+    print(item + ' Classification Report')
+    print(cv_classification_report[item])
+    print('')
+    print(item + ' Confusion Matrix')
+    print(cv_confusion_matrix[item])
+
+# Adaptive Boost on Gaussian Naive Bayes
+gNB_adaboost = AdaBoostClassifier(estimator=GaussianNB(),n_estimators=300,learning_rate=0.16, random_state=seed)
+gNB_adaboost.fit(x_train, y_train)
+
+gNB_adaboost_pred = gNB_adaboost.predict(x_test)
+
+print(metrics.classification_report(y_test, gNB_adaboost_pred))
+metrics.f1_score(y_test, gNB_adaboost_pred) * 100
+display(metrics.confusion_matrix(y_test, gNB_adaboost_pred))
 
 ###########################          Result             ##########################
 
